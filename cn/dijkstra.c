@@ -55,11 +55,12 @@ void dijkstra(int G[MAX][MAX], int n, int startnode){
             printf("\nDistance from source to %d = %d", i, distance[i]);
             printf("\nPath = %d", i);
             j = i;
+        
+            do{
+                j = pred[j];
+                printf("<-%d", j);
+            } while(j!=startnode);
         }
-        do{
-            j = pred[j];
-            printf("<-%d", j);
-        } while(j!=startnode);
     }
 }
 
