@@ -22,14 +22,18 @@ void dijkstra(int G[MAX][MAX], int n, int startnode){
         distance[i] = cost[startnode][i];
         pred[i] = startnode;
     }
+    // distance from startnode
     distance[startnode] = 0;
+    // visited the startnode already
     visited[startnode] = 1;
+
+    // number of visited node
     count = 1;
     
     // finding minimum path
     while(count < n-1){
         mindistance = INF;
-        for(i = 0; i<n; i++){
+        for(i = 0; i<n; i++){ // 0->4; the value of i will be = 5
             if(distance[i] < mindistance && !visited[i]) {
                 mindistance = distance[i];
                 nextnode = i;
@@ -83,3 +87,20 @@ int main(){
 
     return 0;
 }
+
+
+/*
+
+G matrix:                 Cost matrix
+0 10 0 30 100           999 10 999 30 100
+10 0 50 0 0             10 999 50 999 999
+0 50 0 20 10       =>  999 50 999 20 100
+30 0 20 0 60
+100 0 10 60 0
+
+*/
+
+
+
+
+
