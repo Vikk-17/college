@@ -1,53 +1,41 @@
-// Encryption and decryption
-//
 #include<stdio.h>
 #include<string.h>
 
-int mult(char x, int key, int modulus){
+
+int mult(unsigned int x, unsigned int key, unsigned int mod){
   unsigned long int k = 1;
-  for(int i = 0; i<key; i++){
-    k = (k*x) % modulus;
-  }
+  for(int i = 1; i<=key; i++) k = (k*x) % mod;
   return (unsigned int) k;
 }
 
-
 int main(){
-
-  char text[100];
-  int n;
-  int pt[100], ct[100];
-  int encryptionKey = 13, decryptionKey = 17, modulus = 253;
-
-  printf("Enter the message: ");
-  scanf("%s", text);
+  char data[100];
+  unsigned int pt[100], ct[100];
   
-  n = strlen(text);
+  // RSA params
+  unsigned int encKey = 13, decKey = 17, mod = 253;
 
-  // copied the value
-  for(int i = 0; i<n; i++){
-    pt[i] = text[i];
-  }
+  printf("Enter the data: ");
+  scanf("%s", data);
+  
+  for(int i = 0; i<strlen(data); i++) pt[i] = data[i];
 
-  // Encryption // alpha = 5
+  // Encrypted data
   printf("Cipher Text: ");
-  for(int i = 0; i<n; i++){
-    ct[i] = mult(pt[i], encryptionKey, modulus);
-    printf("%d", ct[i]);
+  for(int i = 0; i<strlen(data); i++){
+    ct[i] = mult(pt[i], encKey, mod);
+    printf("%d ", ct[i]);
   }
+  printf("\n");
 
-  // printf("\n");
-
+  // Decrypted data
   printf("Plain Text: ");
-  for(int i = 0; i<n; i++){
-    pt[i] = mult(ct[i], decryptionKey, modulus);
+  for(int i = 0; i<strlen(data); i++){
+    pt[i] = mult(ct[i], decKey, mod);
     printf("%c", pt[i]);
   }
 
-  //printf("\n\n");
-
-
-
+  printf("\n");
 
   return 0;
 }
