@@ -1,0 +1,44 @@
+<!--
+  Develop and demonstrate a XHTML document that has checkbox for apple (59 cents each)
+  orange (49 cents each), and banana (39 cents each) along with submit button. Each checkboxs
+  should have its own onclick event handler. These handlers must add the cost of their fruit
+  to a total cost. An event handler for the sumbit button must produce an alert window with the 
+  message, "your total cost is $xxx", where xxx is the total cost of the chose fruit, including
+  5 percent sales tax. This handler must return "false" to avoid actual submission of the form 
+  data. Modify the document to accept quantity for each item using textboxes.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Lab 4</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <div>
+      <div>
+        <input type="checkbox" id="activateApple">
+        <input type="text" id="appleText" placeholder="Number of apples" disabled>
+        <button id="appleButton" disabled onclick="addApple()">Add</button>
+      </div>
+      <div>
+        <input type="checkbox" id="activateOrange">
+        <input type="text" id="orangeText" placeholder="Number of oranges" disabled>
+        <button id="orangeButton" disabled onclick="addOrange()">Add</button>
+      </div>
+      <div>
+        <input type="checkbox" id="activateBanana">
+        <input type="text" id="bananaText" placeholder="Number of bananas" disabled>
+        <button id="bananaButton" disabled onclick="addBanana()">Add</button>
+      </div>
+      <button onclick="calculateCost()">Submit</button>
+    </div>
+
+
+  </body>
+
+  <!-- Add javascript -->
+  <script src="main.js"></script>
+</html>
