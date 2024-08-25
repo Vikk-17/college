@@ -1,0 +1,40 @@
+<!--Develop and demonstrate a HTML file which includes JavaScript script,
+that uses functions for the following problems:
+a. Parameter: A string, 
+    Output: The position in the string of the left most vowel
+b. Parameter: A number,
+    Output: The number with its digits in the reverse order
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LAB 5</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div style="margin: 5px;">
+    <h2>Find left-most vowel & position of a string</h2>
+    <label>String: </label>
+    <input type="text" id="stringText" placeholder="Enter a string">
+    <button onclick="leftMostVowel()">➡️</button>
+    <span id="vowelChar" style="margin-left: 5px;"></span>
+  </div>
+
+  <div style="margin: 5px;">
+    <h2>Reverse of a number</h2>
+    <label>Number: </label>
+    <input type="text" placeholder="Enter a number" id="getNumber">
+    <button onclick="reverseNumber()">➡️</button>
+    <span id="revNumber" style="margin-left: 5px;"></span>
+  </div>
+</body>
+<script src="main.js"></script>
+
+</html>
