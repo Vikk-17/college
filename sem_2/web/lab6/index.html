@@ -1,0 +1,62 @@
+<!--
+Develop and demonstrate, using JavaScript, a XHTML document that contains three short paragraphs of text, stacked on top of each other, with only enough of each showing so that the mouse cursor can be placed over some part of them. When the cursor is placed over the exposed part of any paragraph, it should rise to the top to become completely visible. Modify the above document so that when a text is moved from the top stacking position, it returns to its original position rather than to the bottom
+-->
+<?xml version="1.0" encoding="utf-8"
+
+<!DOCKTYPE html PBULIC "//W3C/DTD XHTML 1.1//EN"
+"http://www.w3c.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>LAB 6</title>
+        <style type="text/css">
+            .p1{
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                color: pink;
+                background: yellow;
+                width: 265px;
+                height: 150px;
+                font-size: 30px;
+                z-index: 1;
+            }
+            .p2{
+                position: absolute;
+                top: 60px;
+                left: 60px;
+                color: pink;
+                background: grey;
+                width: 265px;
+                height: 150px;
+                font-size: 30px;
+                z-index: 2;
+            }
+            .p3{
+                position: absolute;
+                top: 120px;
+                left: 120px;
+                color: pink;
+                background: blue;
+                width: 265px;
+                height: 150px;
+                font-size: 30px;
+                z-index: 3;
+            }
+        </style>
+        <script type="text/JavaScript">
+            var stop = "p1";
+            function move(newTop) {
+                var domTop = document.getElementById(stop).style;
+                var domNew = document.getElementById(newTop).style;
+                domTop.zIndex="0";
+                domNew.zIndex = "10";
+                stop=newTop;
+            }
+        </script>
+    </head>
+    <body>
+        <p class="p1" id="p1" onmouseover="move('p1')">This is 1st paragraph</p>
+        <p class="p2" id="p2" onmouseover="move('p2')">This is 2nd paragraph</p>
+        <p class="p3" id="p3" onmouseover="move('p3')">This is 3rd paragraph</p>
+    </body>
+</html>
