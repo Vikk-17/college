@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-app="cartApp" ng-controller="cartController" class="container mt-5">
+
+    <div class="row" style="background-color: #FDFAD9;">
+        <div class="col-md-8">
+            <h1 class="mb-4">Shopping Cart</h1>
+            <div ng-repeat="item in items" class="d-flex align-items-center mb-3 p-3 border-bottom">
+                <img src="{{item.image}}" alt="{{item.name}}" class="img-thumbnail mr-3" style="width: 80px; height: 80px;">
+                <div class="flex-grow-1">
+                    <strong>{{item.name}}</strong> - {{item.description}}
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-secondary mr-2" ng-click="decrement(item)">-</button>
+                    <span>{{item.quantity}}</span>
+                    <button class="btn btn-outline-secondary ml-2" ng-click="increment(item)">+</button>
+                </div>
+                <span class="ml-3">₹{{item.cost.toFixed(2)}}</span>
+                <button class="btn btn-danger ml-3" ng-click="removeItem(item)">x</button>
+            </div>
+            <a href="#" class="btn btn-link mt-3">Back to shop</a>
+        </div>
+
+        <div class="col-md-4" style="background-color: #FFD09B; ">
+            <h1 class="mb-4">Summary</h1>
+            <div class="card p-3">
+                <div class="d-flex justify-content-between">
+                    <span>ITEMS</span>
+                    <span>{{items.length}}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Total Cost</span>
+                    <span>₹{{total().toFixed(2)}}</span>
+                </div>
+                <hr>
+                <h3>SHIPPING</h3>
+                <select class="form-control mb-3" ng-model="shippingString" ng-change="updateShipping()">
+                    <option value="">Select shipping method</option>
+                    <option value="5">Standard-Delivery: ₹5.00</option>
+                    <option value="10">Express-Delivery: ₹10.00</option>
+                </select>
+                <h3>GIVE CODE</h3>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Enter your code" ng-model="promoCode">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" ng-click="applyPromoCode()">➡</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <h3>TOTAL PRICE</h3>
+                    <span>₹{{ calculateWithShipping().toFixed(2) }}</span>
+                </div>
+                <button class="btn btn-dark btn-block mt-3" ng-click="checkout()">CHECKOUT</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        var app = angular.module("cartApp", []);
+        app.controller('cartController', ['$scope', function($scope) {
+            $scope.items = [
+                { name: "Shirt1", description: "Cotton T-shirt", quantity: 1, cost: 100, image: "https://imgs.search.brave.com/-uTT67ApERaGBIC2cqi3xs9CTSKRZch09RO-UGJ87To/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzIxOTg1ODMwL3Iv/aWwvZjhhYWNjLzU0/NjAxNDg2NjUvaWxf/NjAweDYwMC41NDYw/MTQ4NjY1XzhkdzAu/anBn" },
+                { name: "Shirt2", description: "Cotton T-shirt", quantity: 1, cost: 100, image: "https://imgs.search.brave.com/JH3-zm7kKWs9Kb052Vy_Yipggyn6xbSxKnNJ25U-qIA/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTA4/MzM4Mzk0NC9waG90/by9zaGlydC1pc29s/YXRlZC13aGl0ZS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/d2Q3a1l2T2Y0d0tF/YmEyOWU0MGJRMjBJ/RXR1STdzLTNpMEhF/TndUYWtLdz0" },
+                { name: "Shirt3", description: "Cotton T-shirt", quantity: 1, cost: 100, image: "https://imgs.search.brave.com/-uTT67ApERaGBIC2cqi3xs9CTSKRZch09RO-UGJ87To/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzIxOTg1ODMwL3Iv/aWwvZjhhYWNjLzU0/NjAxNDg2NjUvaWxf/NjAweDYwMC41NDYw/MTQ4NjY1XzhkdzAu/anBn" },
+            ];
+
+            $scope.shippingString = "";
+            $scope.shipping = 0;
+            $scope.promoCode = "";
+
+            $scope.total = function() {
+                return $scope.items.reduce(function(sum, item) {
+                    return sum + item.cost * item.quantity;
+                }, 0);
+            };
+
+            $scope.increment = function(item) {
+                item.quantity++;
+            };
+
+            $scope.decrement = function(item) {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                }
+            };
+
+            $scope.updateShipping = function() {
+                $scope.shipping = parseFloat($scope.shippingString);
+            };
+
+            $scope.calculateWithShipping = function() {
+                return $scope.total() + $scope.shipping;
+            };
+
+            $scope.removeItem = function(item) {
+                var index = $scope.items.indexOf(item);
+                if (index > -1) $scope.items.splice(index, 1);
+            };
+
+            $scope.checkout = function() {
+                alert("Proceeding to checkout");
+            };
+
+        }]);
+    </script>
+</body>
+
+</html>
